@@ -364,7 +364,7 @@ def reset_game():
     score = 0; 
     distance = 0; 
     bg_y = 0; 
-    lives = 10
+    lives = 3
     last_heart_distance = 1000 
     screen_shake = 0
     boss = None
