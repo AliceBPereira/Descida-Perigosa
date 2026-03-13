@@ -364,7 +364,7 @@ def reset_game():
     score = 0; 
     distance = 0; 
     bg_y = 0; 
-    lives = 3
+    lives = 10
     last_heart_distance = 1000 
     screen_shake = 0
     boss = None
@@ -546,9 +546,11 @@ while True:
     
     # 2. Todos os Sprites (usando o offset do tremor)
     for sprite in all_sprites:
-        if sprite.alive():
+        if sprite.alive() and not isinstance(sprite, Boss):
             screen.blit(sprite.image, (sprite.rect.x + render_offset[0], sprite.rect.y + render_offset[1]))
-    
+    if boss and boss.alive():
+        screen.blit(boss.image, (boss.rect.x + render_offset[0], boss.rect.y + render_offset[1]))
+        boss.draw_health_bar(screen)
     # 3. UI (Texto e Vidas)
     draw_text_shaded(screen, f"Score: {score}", font_main, YELLOW_TEXT, 20, 20)
     draw_text_shaded(screen, f"{distance}m", font_main, WHITE, SCREEN_WIDTH//2, 20, "midtop")
@@ -556,8 +558,8 @@ while True:
     for i in range(lives):
         screen.blit(heart_img, (SCREEN_WIDTH - 40 - (i*30), 20))
 
-    if boss and boss.alive():
-        boss.draw_health_bar(screen)
+    # if boss and boss.alive():
+    #     boss.draw_health_bar(screen)
     
     # --- Desenho da UI de Poder ---
     if show_special_alert and not is_power_active:
